@@ -10,7 +10,6 @@
         android:name="com.example.tamagotchi.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.tamagotchi.ui.dashboard.DashboardFragment"
@@ -22,4 +21,9 @@
         android:name="com.example.tamagotchi.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_egg"-->
+<!--        android:name="com.example.tamagotchi.ui.egg.EggFragment"-->
+<!--        android:label="eggs"-->
+<!--        tools:layout="@layout/fragment_egg" />-->
 </navigation>
