@@ -1,5 +1,6 @@
 package com.example.tamagotchi.ui.home
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,9 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
         return root
+
     }
 
     override fun onDestroyView() {
