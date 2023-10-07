@@ -1,7 +1,10 @@
 package com.example.tamagotchi
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -102,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         // providing title for the ActionBar
         actionBar!!.title = ""
+        actionBar.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         // providing subtitle for the ActionBar
         actionBar.subtitle = ""
@@ -112,5 +116,12 @@ class MainActivity : AppCompatActivity() {
         // methods to display the icon in the ActionBar
         actionBar.setDisplayUseLogoEnabled(true)
         actionBar.setDisplayShowHomeEnabled(true)
+    }
+
+    // method to inflate the options menu when
+    // the user opens the menu for the first time
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
