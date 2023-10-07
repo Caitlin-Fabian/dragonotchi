@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "194254999834",
+    "project_id": "dragonotchi",
+    "storage_bucket": "dragonotchi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194254999834:android:b676780468168703251ca3",
+        "android_client_info": {
+          "package_name": "com.example.tamagotchi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZM9UkKWepfjXW0cCRJ8EaF--PJ3LcBUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
