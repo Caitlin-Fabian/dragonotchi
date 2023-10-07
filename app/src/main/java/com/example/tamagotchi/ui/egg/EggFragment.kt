@@ -1,4 +1,4 @@
-package com.example.tamagotchi.ui.dashboard
+package com.example.tamagotchi.ui.egg
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -43,9 +43,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
 import com.example.tamagotchi.databinding.FragmentDashboardBinding
+import com.example.tamagotchi.ui.dashboard.EggViewModel
 import kotlin.math.roundToInt
 
-class DashboardFragment : Fragment() {
+class EggFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
@@ -59,7 +60,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+            ViewModelProvider(this).get(EggViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -74,74 +75,31 @@ class DashboardFragment : Fragment() {
 
         composeView.setContent {
 
-            Food()
+            EggCrack()
         }
         return rootView
     }
-
     @Preview
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    fun Food(){
+    fun EggCrack(){
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
-        val swipeableStateX = rememberSwipeableState(0)
-        val swipeableStateY = rememberSwipeableState(0)
-        val anchorsX = mapOf(0f to 0,  with(LocalDensity.current){screenWidth.toPx() to 1})
-        val anchorsY = mapOf(0f to 0, with(LocalDensity.current){-screenHeight.toPx() to 1})
-        val density = LocalDensity.current
-
-        Box(modifier = Modifier
-            .height(screenHeight)
-            .width(screenWidth)
-            .background(color = Color.White)
-            .swipeable(
-                state = swipeableStateX,
-                anchors = anchorsX,
-                thresholds = { _, _ -> FractionalThreshold(0.5f) },
-                orientation = Orientation.Horizontal
-            )
-            .swipeable(
-                state = swipeableStateY,
-                anchors = anchorsY,
-                thresholds = { _, _ -> FractionalThreshold(0.5f) },
-                orientation = Orientation.Vertical
-            )
-
+        Column(modifier = Modifier.height(screenHeight).width(screenWidth).background(color = Color.White),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text("Crack ")
+            Button(onClick={(Log.d("debug", "Hello"))}){
                 Image(
 
-                    modifier = Modifier
-                        .size(200.dp)
-                        .offset {
-                            IntOffset(
-                                swipeableStateX.offset.value.roundToInt(),
-                                swipeableStateY.offset.value.roundToInt()
-                            )
-                        }
-                    ,
-                    painter = painterResource(R.drawable.radish),
+                    modifier = Modifier.size(100.dp),
+                    painter = painterResource(R.drawable.egg),
                     contentDescription = "Contact profile picture",
                 )
-        }
-
-
-        val tolerance = 1.0f // Set an appropriate tolerance value
-
-        if (swipeableStateY.offset.value < with(density) { (-screenHeight.toPx()) } + tolerance) {
-            Log.d("debug", "help me")
-            LaunchedEffect(Unit) {
-                swipeableStateY.snapTo(0)
             }
         }
-        Log.d("debug", "swipeableStateY offset: ${swipeableStateY.offset.value}")
-
-
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
