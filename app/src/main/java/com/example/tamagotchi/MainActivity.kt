@@ -1,7 +1,11 @@
 package com.example.tamagotchi
 
 import android.os.Bundle
+
+import androidx.activity.compose.setContent
+
 import android.util.Log
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -22,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent{
+
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
