@@ -77,14 +77,13 @@ class NotificationsFragment : Fragment() {
     @Composable
     fun EggCrack(){
         val configuration = LocalConfiguration.current
-
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
             Column(modifier = Modifier.height(screenHeight).width(screenWidth).background(color = Color.White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-            Text("Crack")
+            Text("Crack ")
                 Button(onClick={(Log.d("debug", "Hello"))}){
                     Image(
 
