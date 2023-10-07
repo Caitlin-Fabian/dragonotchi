@@ -1,30 +1,13 @@
 package com.example.tamagotchi
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 
-import androidx.activity.compose.setContent
-
 import android.util.Log
-
+import android.view.Menu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Text
-import androidx.compose.material3.Button
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -82,7 +65,66 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
+//        // Read from the database
+//        cleanlinessRef.addValueEventListener(object: ValueEventListener {
+//
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                val value = snapshot.getValue<String>()
+//                Log.d("FireBase", "Value is: " + value)
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.w("FireBase", "Failed to read value.", error.toException())
+//            }
+//
+//        })
+
+        // Read from the database
+//        boredomRef.addValueEventListener(object: ValueEventListener {
+//
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                val value = snapshot.getValue<String>()
+//                Log.d("FireBase", "Value is: " + value)
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.w("FireBase", "Failed to read value.", error.toException())
+//            }
+//
+//        })
+
+        // calling this activity's function to
+        // use ActionBar utility methods
+        val actionBar = supportActionBar
+        // providing title for the ActionBar
+        actionBar!!.title = ""
+        actionBar.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // providing subtitle for the ActionBar
+        actionBar.subtitle = ""
+
+        // adding icon in the ActionBar
+        //actionBar.setIcon()
+
+        // methods to display the icon in the ActionBar
+        actionBar.setDisplayUseLogoEnabled(true)
+        actionBar.setDisplayShowHomeEnabled(true)
     }
+
+    // method to inflate the options menu when
+    // the user opens the menu for the first time
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+        }
+
 
     fun checkExistence( database: FirebaseDatabase, callback: (Boolean) -> Unit) {
         val dragonExists = database.getReference("dragonExists")
@@ -191,4 +233,4 @@ class MainActivity : AppCompatActivity() {
 //        actionBar.setDisplayUseLogoEnabled(true)
 //        actionBar.setDisplayShowHomeEnabled(true)
 //    }
-}
+
