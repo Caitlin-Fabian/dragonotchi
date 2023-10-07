@@ -27,6 +27,7 @@ import androidx.compose.material.swipeable
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -89,6 +90,7 @@ class DashboardFragment : Fragment() {
         val swipeableStateY = rememberSwipeableState(0)
         val anchorsX = mapOf(0f to 0,  with(LocalDensity.current){screenWidth.toPx() to 1})
         val anchorsY = mapOf(0f to 0, with(LocalDensity.current){-screenHeight.toPx() to 1})
+        val density = LocalDensity.current
 
         Box(modifier = Modifier
             .height(screenHeight)
@@ -125,16 +127,18 @@ class DashboardFragment : Fragment() {
                 )
         }
 
-        // Detect when the content is swiped off the screen
-//        DisposableEffect(swipeableStateY.offset.value) {
-//                // Reset swipeableStateY and Image position when the composable is disposed
-//                swipeableStateY.animateTo(  0)
-//        }
-//        if (swipeableStateY.offset.value ==  with(LocalDensity.current){(-screenHeight.toPx())}) {
-//            Log.d("debug","Content swiped off the screen!")
-//
-//
-//        }
+
+        val tolerance = 1.0f // Set an appropriate tolerance value
+
+        if (swipeableStateY.offset.value < with(density) { (-screenHeight.toPx()) } + tolerance) {
+            Log.d("debug", "help me")
+            LaunchedEffect(Unit) {
+                swipeableStateY.snapTo(0)
+            }
+        }
+        Log.d("debug", "swipeableStateY offset: ${swipeableStateY.offset.value}")
+
+
     }
 
 
