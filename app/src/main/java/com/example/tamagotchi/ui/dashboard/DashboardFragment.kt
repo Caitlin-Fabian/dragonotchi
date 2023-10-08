@@ -36,10 +36,14 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
@@ -94,7 +98,9 @@ class DashboardFragment : Fragment() {
         val anchorsX = mapOf(0f to 0,  with(LocalDensity.current){screenWidth.toPx() to 1})
         val anchorsY = mapOf(0f to 0, with(LocalDensity.current){-screenHeight.toPx() to 1})
         val density = LocalDensity.current
-
+        val youngSerif = FontFamily(
+            Font(R.font.young_serif, FontWeight.Bold)
+        )
         Box(modifier = Modifier
 
             .height(screenHeight)
@@ -129,7 +135,7 @@ class DashboardFragment : Fragment() {
                 painter = painterResource(R.drawable.chicken_leg),
                 contentDescription = "Contact profile picture",
             )
-            Text(modifier= Modifier.padding(30.dp), text = "Feed Your Pet", textAlign = TextAlign.Center,)
+            Text(modifier= Modifier.padding(30.dp), text = "Feed Your Pet",fontFamily=youngSerif, textAlign = TextAlign.Center, fontSize = 30.sp)
         }
         }
 
