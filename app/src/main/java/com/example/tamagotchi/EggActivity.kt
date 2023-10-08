@@ -27,6 +27,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -115,8 +118,10 @@ class EggActivity : AppCompatActivity() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
-        var numberOfClicks = 0
-
+        var numberOfClicks = 1
+        val youngSerif = FontFamily(
+            Font(R.font.young_serif, FontWeight.Bold)
+        )
         val ctx = LocalContext.current
         Column(modifier = Modifier
             .height(screenHeight)
@@ -134,8 +139,21 @@ class EggActivity : AppCompatActivity() {
                     binding.textView.text = "CLICK AGAIN!"
 
                 } else if (numberOfClicks == 3) {
+
                     // go to main activity where all dragon activities are
                     val intent: Intent = Intent(ctx, MainActivity::class.java)
+
+                    // Initialize
+                    val database = Firebase.database
+                    val healthRef = database.getReference("health").setValue(5)
+                    val boredomRef = database.getReference("boredomLevel").setValue(0)
+                    val cleanlinessRef = database.getReference("cleanlinessLevel").setValue(5)
+                    val dragonExists = database.getReference("dragonExists").setValue(true)
+                    val hungerRef = database.getReference("hunger").setValue(0)
+                    val mopRef = database.getReference("usedMop").setValue(false)
+                    val ballRef = database.getReference("threwBall").setValue(false)
+                    val foodRef = database.getReference("threwFood").setValue(false)
+
                     startActivity(intent)
                     finish() // remove this activity from the stack
 

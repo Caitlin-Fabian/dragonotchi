@@ -22,6 +22,8 @@ import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshots.Snapshot
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -35,6 +37,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
 import com.example.tamagotchi.databinding.FragmentHomeBinding
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
@@ -125,7 +132,26 @@ class HomeFragment : Fragment() {
         val tolerance = 1.0f // Set an appropriate tolerance value
 
         if (swipeableStateY.offset.value < with(density) { (-screenHeight.toPx()) } + tolerance) {
+
+            // ball was swiped
             Log.d("debug", "help me")
+            val database = Firebase.database
+            val boredomRef = database.getReference("boredomLevel")
+            val ballRef = database.getReference("threwBall")
+
+            // attempt to get and update boredom level
+            boredomRef.get().addOnSuccessListener {
+                Log.i("firebase", "Got value ${it.value}")
+                var myInt = it.value.toString().toInt()
+                if (myInt in 0..4) {
+                    myInt++
+                    ballRef.setValue(true)
+                    boredomRef.setValue(myInt)
+                }
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
+
             LaunchedEffect(Unit) {
                 swipeableStateY.snapTo(0)
             }
