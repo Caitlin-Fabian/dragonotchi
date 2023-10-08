@@ -5,15 +5,6 @@
 // Provide the RTDB payload printing info and other helper functions.
 #include <addons/RTDBHelper.h>
 
-#define FIREBASE_HOST "https://dragonotchi-default-rtdb.firebaseio.com"                         
-//database api url
-#define API_KEY "pWoIw4pHYnPwPbn82trjowwt5VOHuJdt2KkW0Z7o"           
-//database secret
-
-#define FIREBASE_PROJECT_ID "dragonotchi"
-#define FIREBASE_CLIENT_EMAIL "firebase-adminsdk-lwanp@dragonotchi.iam.gserviceaccount.com"
-const char PRIVATE_KEY[] PROGMEM = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCVmsLtm0U8/96V\njSpsDxmWRziJy7hJlcbwbvUwzYOA9V/0HUeffN9LF1NPIIm2sExTbyMncWNGy0oI\ngZf7ynyGtVxRi5G5J5pXJLo1imP3NAYkJsgqEm4vrPEC7nJPcPKeZARfbPCOF/pf\nJbXcAhargbKhalmL2ApDnK1wj16P0xF8C6j5ZH2D3w/wpC8k3a84rWLTkdoRUX63\n0SRLC+xiJGfHSq8wIy5SSZIafzHcthB9T14ApdfJyAwYaLc3UO7G+zAdU6doiW9p\nkK+/9GT3kADRTygLGYS9YMmwpXoxOQf3xsKowsn7QQg7rw6iKPF84C5rKDe8gA9Q\nhNOwb/9NAgMBAAECggEACv3O2oQw5xVpdhVkC4Jkf90Fs2ILTSS69AlC7G38/mmI\nvje0fmw/P5YcIdEjLQ/w26Rrsccr4xSmgM98qhwrX/5NJRSbBT56oXJqV+quA4iH\n9vn+dNDb1ZbgMjXwohOLT8XLaHNpjRcH5xuvK9XfcoRZ6nAU2ihqQKNvPrjZ2rkr\nauhaXqqbDCNsZfThYN3aqBzWMli/Q8o+H0ANnbsvX+cyLOWmQhh3VOXPC4dYMf8v\ncU18v+LGh8lywHQMT/rJ85kvSItmwax5iLO7rzLQbMbUdmTcLUKAuVaMOwmOX6d+\neHAChTeykJAjSyil17qtE1OEj2vUECs+g4DcRxhgQQKBgQDEkuWE8Xwvoj4Ew/R1\n6W1zA85UJA9WdqhTCU73wDHooIBDKjJmnFTvpAKbrzI6h0FgbQfVneGP76I4GMNk\n9Ywo/DXmDnOEgTwXZLOpjQ1tyO0opznKWA2ZIC5l8UPya5dW1AFAx/hs+h2ojmsX\nBklHTRR0e/j6f38XnQx1mbksfQKBgQDC1Nnv+quModtJTooCnckMuuEq6Fk5TRAb\nYuU7R/pVrq7uiaUdeOrusq6/esBoIu0/YFpZ5dldrIgNbKYvN9/JA8I2PbuKk1a+\nTaKSq5Cx+vGtuZ4ihJhxLbDYGXUgkDSjsSuyaFrvu2YNkidBwc62//eKxzw9SqbC\nfn7rMmEnEQKBgGQJfdSSMGjtYDJ8psP670BBB5e6YjPWXwMjEZTzsnJ4e82yg8PE\ne1UZWlpwZldyzcqMshf8KPZfNWbm80lFzPZuo99YK2Gbg0FEdkorBlKAlnDB6Z8Y\nAJOU1Qf8KGAOcQ43Bgw5uCt9fepxz/3/rPskNuywypxwlfUmb1jJynrhAoGAQpa7\nEfErtroPF6P3OWOyNl6c3Kxi6lmzWpjXXgaAwc4dTbvPqh4MtZ5uaVVL84uUaKfG\n2ZjcTM7OBUCQH+1J2Asn0qAQvBEVgZ9JJDXtE1eASG77ZDLLY0tJeOJijMmcpCHG\nnIhcJDl5bMP6FNhnjVY4xb7IkO41xp2zRTGH0PECgYEAigXKJEUTIWp9NCwtv5Se\nN978BEdjfIH2MsKPdP1wa/GPQdtWsE94xV/qF6VvO7QwxWBkXt5IB0LvWfNJKFNF\nEn2eDnR7TdEtIbOcNAg/OMU0/bLi4SDev8acGsFc6/WaGPTqY7ZL0578Ca00qnIj\n/JdTQOvVi3bRVv1MxfyGryg=\n-----END PRIVATE KEY-----\n";
-
 /* 4. Define the Firebase Data object */
 FirebaseData fbdo;
 FirebaseData stream;
@@ -124,22 +115,22 @@ void loopFirebase() {
 
 void sendMessage() {
     // Write an Float number on the database path test/float
-    if (Firebase.getString(fbdo, "/boredomLevel")){
+    if (Firebase.getInt(fbdo, "/boredomLevel")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      boredomLevel = (fbdo.stringData()).toInt();
+      boredomLevel = (fbdo.intData());
     }
     else {
       Serial.println("FAILED TO FETCH BOREDOM");
       Serial.println("REASON: " + fbdo.errorReason());
     }
     
-    if (Firebase.getString(fbdo, "/hunger")){
+    if (Firebase.getInt(fbdo, "/hunger")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      hungerLevel = (fbdo.stringData()).toInt();
+      hungerLevel = (fbdo.intData());
     }
     else {
       Serial.println("FAILED TO FETCH HUNGER");
@@ -150,18 +141,18 @@ void sendMessage() {
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      dragonExists = fbdo.stringData() == "true";
+      dragonExists = fbdo.boolData();
     }
     else {
       Serial.println("FAILED TO FETCH EXISTS");
       Serial.println("REASON: " + fbdo.errorReason());
     }
     
-    if (Firebase.getString(fbdo, "/cleanlinessLevel")){
+    if (Firebase.getInt(fbdo, "/cleanlinessLevel")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      cleanlinessLevel = (fbdo.stringData()).toInt();
+      cleanlinessLevel = fbdo.intData();
     }
     else {
       Serial.println("FAILED TO FETCH CLEANLEVEL");
@@ -172,40 +163,40 @@ void sendMessage() {
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      health = fbdo.stringData().toInt();
+      health = fbdo.intData();
     }
     else {
       Serial.println("FAILED TO FETCH HEALTH");
       Serial.println("REASON: " + fbdo.errorReason());
     }
     
-    if (Firebase.getInt(fbdo, "/threwBall")){
+    if (Firebase.getBool(fbdo, "/threwBall")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      threwBall = fbdo.stringData() == "true";
+      threwBall = fbdo.boolData();
     }
     else {
       Serial.println("FAILED TO FETCH THREW BALL");
       Serial.println("REASON: " + fbdo.errorReason());
     }
     
-    if (Firebase.getInt(fbdo, "/threwFood")){
+    if (Firebase.getBool(fbdo, "/threwFood")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      threwFood = fbdo.stringData() == "true";
+      threwFood = fbdo.boolData();
     }
     else {
       Serial.println("FAILED TO FETCH THREW FOOD");
       Serial.println("REASON: " + fbdo.errorReason());
     }
     
-    if (Firebase.getInt(fbdo, "/usedMop")){
+    if (Firebase.getBool(fbdo, "/usedMop")){
 //      Serial.println("PASSED");
 //      Serial.println("PATH: " + fbdo.stringData());
 //      Serial.println("TYPE: " + fbdo.dataType());
-      usedMop = fbdo.stringData() == "true";
+      usedMop = fbdo.boolData();
     }
     else {
       Serial.println("FAILED TO FETCH USEDMOP");

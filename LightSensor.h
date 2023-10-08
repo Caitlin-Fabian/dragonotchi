@@ -1,4 +1,4 @@
-#define LIGHT_SENSOR_PIN 1
+#define LIGHT_SENSOR_PIN A0
 
 float resistance;
 const int threshold = 10;

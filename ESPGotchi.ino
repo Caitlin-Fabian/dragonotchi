@@ -13,6 +13,7 @@ const unsigned int COL_LENGTH = 15;
 
 int iterator = 0;
 unsigned long timeSinceSwitch = 0;
+String currentSprite;
 
 CRGB leds[NUM_LEDS];
 
@@ -27,6 +28,9 @@ int boredomTimer = 0;
 int hungerTimerLimit = 10000 * 4;
 int hungerTimer = 0;
 
+int frameRate = 1000;
+int tick = 0;
+
 void setup() {
   // put your setup code here, to run once:
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
@@ -40,6 +44,8 @@ void setup() {
   setupWifi();
   
   setupFirebase();
+  
+  currentSprite = "Normal";
 }
 
 void updateHealth() {
@@ -74,16 +80,8 @@ void updateHealth() {
 
 void loop() {
   loopFirebase();
-  // Update LEDS
   
-  FastLED.show();
-  
-  // Erase previous lit LEDS
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
-  }
-  
-  readLightSensor();
+  // readLightSensor();
 
   if (dragonExists) {
     // Decrease cleanliness
@@ -168,13 +166,14 @@ void loop() {
     
     if (health == 0) {
       Serial.println("Died");
-      for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = image_data_DeadFromPoop[i];
-      }
+//      for (int i = 0; i < NUM_LEDS; i++) {
+//        leds[i] = image_data_DeadFromPoop[i];
+//      }
+      currentSprite = "Died";
     } 
     else if (threwBall) {
       boredomTimer = millis();
-      if ((millis() - timeSinceSwitch > 1000 || timeSinceSwitch == 0) && startedTimer)
+      if ((millis() - timeSinceSwitch > 2000 || timeSinceSwitch == 0) && startedTimer)
       {
         timeSinceSwitch = millis();
         startedTimer = false;
@@ -190,13 +189,14 @@ void loop() {
         }
       }
       Serial.println("Catching ball");
-      for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = image_data_EatFruit[i];
-      }
+//      for (int i = 0; i < NUM_LEDS; i++) {
+//        leds[i] = image_data_EatFruit[i];
+//      }
+      currentSprite = "Ball";
     }
     else if (threwFood) {
       hungerTimer = millis();
-      if ((millis() - timeSinceSwitch > 1000 || timeSinceSwitch == 0) && startedTimer)
+      if ((millis() - timeSinceSwitch > 3000 || timeSinceSwitch == 0) && startedTimer)
       {
         timeSinceSwitch = millis();
         startedTimer = false;
@@ -212,29 +212,70 @@ void loop() {
         }
       }
       Serial.println("Eating food");
-      for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = image_data_EatMeat[i];
-      }
+      currentSprite = "Eat";
     }
-    else if (cleanlinessLevel < 2) {
+    else if (cleanlinessLevel < 3) {
       Serial.println("Poop");
-      for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = image_data_Poop[i];
-      }
+      currentSprite = "Poop";
     }
-    else if (boredomLevel == 0 || !isLightOn) {
+    else if (boredomLevel < 3) {
       Serial.println("Bored or sleeping");
-      for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = image_data_DeathFromHunger[i];
-      }
+      currentSprite = "Bored";
     }
     else {  
-      Serial.println("Normal");        
+      Serial.println("Normal");
+      currentSprite = "Normal";
+    }
+  }
+
+  if ((millis() - tick > frameRate || tick == 0))
+  {
+    tick = millis();
+    // Update LEDS
+    // Erase previous lit LEDS
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds[i] = CRGB::Black;
+    }
+    
+    FastLED.show();
+
+    if (dragonExists) {
+      
+    if (currentSprite == "Normal") {
       for (int i = 0; i < NUM_LEDS; i++) {
         leds[i] = image_data_Normal[i];
       }
     }
+    else if (currentSprite == "Bored") {
+      for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = image_data_sleep[i];
+      }
+    }
+    else if (currentSprite == "Poop") {
+      for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = image_data_Poop[i];
+      }
+    }
+    else if (currentSprite == "Eat") {
+      for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = image_data_chicken[i];
+      }
+    }
+    else if (currentSprite == "Ball") {
+      for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = image_data_EatFruit[i];
+      }
+    }
+    else if (currentSprite == "Died") {
+      for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = image_data_DeadFromPoop[i];
+      }
+    }
+    }
+
   }
+    
+  FastLED.show();
   
   // Listen for HTTP Post/Get Requests
   server.handleClient();

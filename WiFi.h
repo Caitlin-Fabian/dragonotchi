@@ -105,11 +105,21 @@ void startWebSocket() {
 }
 
 void handleRoot() {
-//  server.send(200, "text/plain", "<p>Health: " + health + "</p>" 
-//  + "<p>Hunger level: " + hungerLevel + "</p>" 
-//  + "<p>Cleanliness level: " + cleanlinessLevel + "</p>"
-//  + "<p>Boredom level: " + boredomLevel + "</p>"
-//  + "<p>Threw food: " + threwFood + "</p>");
+  if (cleanlinessLevel < 5) {
+    server.send(200, "<p>DRAGON POOPY!!!!</p>");
+  } else 
+  if (boredomLevel < 5) {
+    server.send(200, "<p>DRRAGON BORED.</p>");
+  }else 
+  if (threwBall) {
+    server.send(200, "<p>THAT WAS FUN THANK YOU!!</p>");
+  }else 
+  if (threwFood) {
+    server.send(200, "<p>YUMMY THANK YOU!!</p>");
+  } else if (hungerLevel < 5) {
+    
+    server.send(200, "<p>DRAGON HUNGRY!!!!!</p>");
+  }
 }
 
 void handleNotFound() {
