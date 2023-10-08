@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
+import androidx.compose.material.Button
 import androidx.compose.material.TextButton
-import androidx.compose.material3.Button
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,10 +65,6 @@ class NotificationsFragment : Fragment() {
 
         composeView.setContent {
             // Define your Composable content here
-            Text(
-                text = notificationsViewModel.text.value ?: "Default Text",
-                modifier = Modifier.padding(16.dp)
-            )
             CleanUp()
         }
 
@@ -78,49 +74,47 @@ class NotificationsFragment : Fragment() {
 
     @Preview
     @Composable
-    fun CleanUp(){
+    fun CleanUp() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
-            Column(modifier = Modifier.height(screenHeight).width(screenWidth).background(color = Color.White),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
+        Column(
+            modifier = Modifier.height(screenHeight).width(screenWidth),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-            Text("Crack ")
-                Button(onClick={
-                    (Log.d("debug", "Hello"))
-                    val database = Firebase.database
-                    val cleanRef = database.getReference("cleanlinessLevel")
-                    val mopRef = database.getReference("usedMop")
+            TextButton( onClick = {
+                val database = Firebase.database
+                val cleanRef = database.getReference("cleanlinessLevel")
+                val mopRef = database.getReference("usedMop")
 
-                    // attempt to get and update cleanliness level
-                    cleanRef.get().addOnSuccessListener {
-                        Log.i("firebase", "Got value ${it.value}")
-                        var myInt = it.value.toString().toInt()
-                        if (myInt in 0..4) {
-                            myInt++
-                            mopRef.setValue(true)
-                            cleanRef.setValue(myInt)
-                        }
-                    }.addOnFailureListener{
-                        Log.e("firebase", "Error getting data", it)
+                // attempt to get and update cleanliness level
+                cleanRef.get().addOnSuccessListener {
+                    Log.i("firebase", "Got value ${it.value}")
+                    var myInt = it.value.toString().toInt()
+                    if (myInt in 0..4) {
+                        myInt++
+                        mopRef.setValue(true)
+                        cleanRef.setValue(myInt)
                     }
-                }){
-                    Image(
-
-
-                TextButton(modifier = Modifier.background(Color(0)), onClick={(Log.d("debug", "Hello"))}){
-                    Image(
-                        modifier = Modifier.size(300.dp),
-                        painter = painterResource(R.drawable.mop_drawing),
-                        contentDescription = "Contact profile picture",
-                    )
+                }.addOnFailureListener {
+                    Log.e("firebase", "Error getting data", it)
                 }
-                Text("Clean up the mess ")
-
+            }) {
+                Image(
+                    modifier = Modifier.size(300.dp),
+                    painter = painterResource(R.drawable.mop_drawing),
+                    contentDescription = "Contact profile picture",
+                )
             }
+            Text("Clean up the mess ")
+
+        }
+
+
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
