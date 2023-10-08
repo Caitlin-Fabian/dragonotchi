@@ -6,6 +6,7 @@ import android.os.Bundle
 
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -66,38 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-//        // Read from the database
-//        cleanlinessRef.addValueEventListener(object: ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                val value = snapshot.getValue<String>()
-//                Log.d("FireBase", "Value is: " + value)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.w("FireBase", "Failed to read value.", error.toException())
-//            }
-//
-//        })
-
-        // Read from the database
-//        boredomRef.addValueEventListener(object: ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                val value = snapshot.getValue<String>()
-//                Log.d("FireBase", "Value is: " + value)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.w("FireBase", "Failed to read value.", error.toException())
-//            }
-//
-//        })
-
         // calling this activity's function to
         // use ActionBar utility methods
         val actionBar = supportActionBar
@@ -119,7 +88,20 @@ class MainActivity : AppCompatActivity() {
     // method to inflate the options menu when
     // the user opens the menu for the first time
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val database = Firebase.database
+
+        checkHealth(database){health ->
+            for (i in 0 until health) {
+            val menuItem = menu.add(Menu.NONE, Menu.NONE, i, "Heart")
+            menuItem.setIcon(R.drawable.life)
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+        }
+
+
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -151,6 +133,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun checkHealth(database: FirebaseDatabase, callback: (Int) -> Unit) {
+        val health = database.getReference("health")
+
+        health.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<Int>()
+                Log.d("FireBase", "Value is: " + value)
+                if (value != null) {
+                    callback(value)
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("FireBase", "Failed to read value.", error.toException())
+                callback(0) // Handle the error by providing a default value
+
+            }
+
+        })
+
+    }
+
 //
 //        // Write a message to the database
 //        val database = Firebase.database
@@ -169,21 +177,7 @@ class MainActivity : AppCompatActivity() {
 //
 //
 //
-//        // Read from the database
-//        healthRef.addValueEventListener(object: ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                val value = snapshot.getValue<String>()
-//                Log.d("FireBase", "Value is: " + value)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.w("FireBase", "Failed to read value.", error.toException())
-//            }
-//
-//        })
+
 //
 //        // Read from the database
 //        cleanlinessRef.addValueEventListener(object: ValueEventListener {

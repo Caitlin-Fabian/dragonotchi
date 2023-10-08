@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
         val anchorsY = mapOf(0f to 0, with(LocalDensity.current){-screenHeight.toPx() to 1})
         val density = LocalDensity.current
         val youngSerif = FontFamily(
-            Font(R.font.young_serif, FontWeight.Normal)
+            Font(R.font.young_serif, FontWeight.Bold)
         )
         Box(modifier = Modifier
             .height(screenHeight)
