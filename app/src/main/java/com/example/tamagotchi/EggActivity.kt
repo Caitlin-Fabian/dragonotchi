@@ -22,6 +22,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -122,6 +126,8 @@ class EggActivity : AppCompatActivity() {
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
         var numberOfClicks = 1
+        var eggImage by remember { mutableStateOf(R.drawable.egg1) }
+
         val youngSerif = FontFamily(
             Font(R.font.young_serif, FontWeight.Bold)
         )
@@ -136,12 +142,21 @@ class EggActivity : AppCompatActivity() {
             Text(text="Click the Egg to Crack", fontFamily = youngSerif, fontSize = 30.sp)
             TextButton( modifier = Modifier.padding(10.dp), onClick={
 
+
                 // egg clicked
                 if (numberOfClicks < 3) {
                     numberOfClicks++;
                     binding.textView.text = "CLICK AGAIN!"
+                    when (numberOfClicks) {
+                        1 -> eggImage = R.drawable.egg1
+                        2 -> eggImage = R.drawable.egg2
+                        3 -> eggImage = R.drawable.egg3
+
+                    }
+                    //eggImage = R.drawable.egg2
 
                 } else if (numberOfClicks == 3) {
+                    eggImage = R.drawable.egg4
 
                     // go to main activity where all dragon activities are
                     val intent: Intent = Intent(ctx, MainActivity::class.java)
@@ -166,7 +181,7 @@ class EggActivity : AppCompatActivity() {
                 Image(
 
                     modifier = Modifier.size(300.dp),
-                    painter = painterResource(R.drawable.egg),
+                    painter = painterResource(id = eggImage),
                     contentDescription = "Contact profile picture",
                 )
             }

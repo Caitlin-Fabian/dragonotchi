@@ -50,26 +50,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val database = Firebase.database
-
-        checkExistence(database){crackedEgg ->
-            // Use the value of crackedEgg here or perform any actions based on it
-            if (crackedEgg) {
-                // The dragon exists
-                Log.d("FireBase", "Dragon Exists")
-
-            } else {
-                // The dragon does not exist
-                Log.d("FireBase", "Dragon DeezNuts")
-//                navController.navigate(R.id.navigation_egg)
-            }
-
-
-        }
-
-        // calling this activity's function to
-        // use ActionBar utility methods
         val actionBar = supportActionBar
+
         // providing title for the ActionBar
         actionBar!!.title = ""
         actionBar.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
