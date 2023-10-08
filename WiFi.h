@@ -5,7 +5,7 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
 #include "Credentials.h"
-// #include <ArduinoWebsockets.h>
+#include "Dragonotchi.h"
 
 #include <WebSocketsServer.h>
 
@@ -26,8 +26,6 @@ void handleRoot();
 void handleNotFound();
 void setupServer();
 void startWebSocket();
-void handleFeed();
-void handlePlay();
 void setupWifi();
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -51,57 +49,29 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
 
             DynamicJsonDocument doc(1024);
             deserializeJson(doc, payload);
-
-//            switch (doc["action"]) {
-//              case "feed": {
-//                if (doc["item"] == 
-//              }
-//            }
+            
             String action = doc["action"];
             String item = doc["item"];
 
             Serial.printf("Action: %s\n", action);
             Serial.printf("Item: %s\n", item);
-
-            // send message to client
-            // webSocket.sendTXT(num, "message here");
-
-            // send data to all connected clients
-            // webSocket.broadcastTXT("message here");
             break;
           }
         case WStype_BIN:
             USE_SERIAL.printf("[%u] get binary length: %u\n", num, length);
             hexdump(payload, length);
-
-            // send message to client
-            // webSocket.sendBIN(num, payload, length);
             break;
     }
 }
 
 void setupWifi() {
-//    WiFi.softAP(ssid_ap, password_ap);
-//    Serial.print(ssid_ap);
-//    Serial.print(" started!");
-//    Serial.print("IP address:\t");
-//    Serial.println(WiFi.softAPIP());
+  wifiMulti.addAP(ssid, password);
 
-    wifiMulti.addAP(ssid, password);
+  while (wifiMulti.run() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print('.');
+  }
   
-    while (wifiMulti.run() != WL_CONNECTED) {
-      delay(1000);
-      Serial.print('.');
-    }
-
-//  if(WiFi.softAPgetStationNum() == 0) {      // If the ESP is connected to an AP
-//    Serial.print("Connected to ");
-//    Serial.println(WiFi.SSID());             // Tell us what network we're connected to
-//    Serial.print("IP address:\t");
-//    Serial.print(WiFi.localIP());            // Send the IP address of the ESP8266 to the computer
-//  } else {                                   // If a station is connected to the ESP SoftAP
-//    Serial.print("Station connected to ESP8266 AP");
-//  }
   Serial.print("Connected to ");
   Serial.println(WiFi.SSID());             // Tell us what network we're connected to
   Serial.print("IP address:\t");
@@ -117,12 +87,11 @@ void setupWifi() {
   }
   MDNS.addService("http", "tcp", 80);
 
-  startWebSocket();
+  // startWebSocket();
 }
 
 void setupServer() {
   server.on("/", handleRoot);
-  server.on("/feed", handleFeed);
   server.onNotFound(handleNotFound);
 
   server.begin();
@@ -133,21 +102,14 @@ void setupServer() {
 void startWebSocket() {
   websocketServer.begin();
   websocketServer.onEvent(webSocketEvent);
-  //websocketServer.listen(81);
-//  Serial.print("Is server live? ");
-//  Serial.println(websocketServer.available());
 }
 
 void handleRoot() {
-  server.send(200, "text/plain", "dragon!");
-}
-
-void handleFeed() {
-  server.send(200, "text/plain", "fed the dragon!");
-}
-
-void handlePlay() {
-  server.send(200, "text/plain", "increased dragon happiness!");
+//  server.send(200, "text/plain", "<p>Health: " + health + "</p>" 
+//  + "<p>Hunger level: " + hungerLevel + "</p>" 
+//  + "<p>Cleanliness level: " + cleanlinessLevel + "</p>"
+//  + "<p>Boredom level: " + boredomLevel + "</p>"
+//  + "<p>Threw food: " + threwFood + "</p>");
 }
 
 void handleNotFound() {

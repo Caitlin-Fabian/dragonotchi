@@ -2,7 +2,7 @@
 
 float resistance;
 const int threshold = 10;
-bool isLightOut = false;
+bool isLightOn = false;
 
 void readLightSensor() {
     int sensor_value = analogRead(LIGHT_SENSOR_PIN);
@@ -12,10 +12,11 @@ void readLightSensor() {
 
     if (resistance > threshold)
     {
-       isLightOut = true;
+       isLightOn = true;
     } 
     else 
     {
-       isLightOut = false;
+       Serial.println("Light is off");
+       isLightOn = false;
     }
 }

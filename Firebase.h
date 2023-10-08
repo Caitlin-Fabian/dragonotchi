@@ -27,7 +27,6 @@ FirebaseConfig config;
 unsigned long lastTime = 0;
 
 String parentPath = "/";
-String childPath[4] = {"/boredomLevel", "/cleanlinessLevel", "/dragonExists", "/health"};
 
 int count = 0;
 
@@ -38,17 +37,6 @@ void sendMessage();
 
 void streamCallback(StreamData data) {
   Serial.println("ayy lmao");
-// Multipath stream data
-// get size of each node in bytes
-//  size_t numChild = sizeof(childPath) / sizeof(childPath[0]);
-//
-//  for (size_t i = 0; i < numChild; i++)
-//  {
-//    if (stream.get(childPath[i]))
-//    {
-//      Serial.printf("path: %s, event: %s, type: %s, value: %s%s", stream.dataPath.c_str(), stream.eventType.c_str(), stream.type.c_str(), stream.value.c_str(), i < numChild - 1 ? "\n" : "");
-//    }
-//  }
 
   Serial.printf("stream path, %s\nevent path, %s\ndata type, %s\nevent type, %s\n\n",
       data.streamPath().c_str(),
@@ -118,27 +106,13 @@ void setupFirebase() {
     config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
 
     Firebase.begin(&config, &auth);
-    
-    // Firebase.setStreamCallback(fbdo, streamCallback, streamTimeoutCallback);
-    
-//    if (!Firebase.beginStream(stream, "/"))
-//    {
-//      // Could not begin stream connection, then print out the error detail
-//      Serial.println(stream.errorReason());
-//    }
-
 }
 
 void loopFirebase() {
-  // Firebase.ready() should be called repeatedly to handle authentication tasks.
-
-  // Firebase.runStream();
-  
   if (Firebase.ready() && (millis() - lastTime > 1000 || lastTime == 0))
   {
       lastTime = millis();
       count++;
-      
       FirebaseJson json;
       json.add("data", "hello");
       json.add("num", count);
@@ -146,83 +120,95 @@ void loopFirebase() {
 
       sendMessage();
   }
-
-//  if (dataChanged)
-//  {
-//    dataChanged = false;
-//    Serial.println("Data changed");
-//    // When stream data is available, do anything here...
-//  }
-//  if (Firebase.ready()) {  
-//    if (!Firebase.readStream(stream))
-//    {
-//      Serial.println(fbdo.errorReason());
-//    }
-//  
-//    if (stream.streamTimeout())
-//    {
-//      Serial.println("Stream timeout, resume streaming...");
-//      Serial.println();
-//    }
-//  
-//  //
-//    if (stream.streamAvailable()) {
-//      if (stream.dataTypeEnum() == firebase_rtdb_data_type_integer)
-//        Serial.println(stream.to<int>());
-//      else if (stream.dataTypeEnum() == firebase_rtdb_data_type_float)
-//        Serial.println(stream.to<float>(), 5);
-//      else if (stream.dataTypeEnum() == firebase_rtdb_data_type_double)
-//        printf("%.9lf\n", stream.to<double>());
-//      else if (stream.dataTypeEnum() == firebase_rtdb_data_type_boolean)
-//        Serial.println(stream.to<bool>() ? "true" : "false");
-//      else if (stream.dataTypeEnum() == firebase_rtdb_data_type_string)
-//        Serial.println(stream.to<String>());
-//    }
-//    else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_json)
-//    {
-//        FirebaseJson *json = fbdo.to<FirebaseJson *>();
-//        Serial.println(json->raw());
-//    }
-//    else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_array)
-//    {
-//        FirebaseJsonArray *arr = fbdo.to<FirebaseJsonArray *>();
-//        Serial.println(arr->raw());
-//    }
-//  }
-//  }
 }
 
 void sendMessage() {
-    // Write an Int number on the database path test/int
-//    if (Firebase.setBool(fbdo, "/dragonExists", true)){
-//      Serial.println("PASSED");
-//      Serial.println("PATH: " + fbdo.dataPath());
-//      Serial.println("TYPE: " + fbdo.dataType());
-//    }
-//    else {
-//      Serial.println("FAILED");
-//      Serial.println("REASON: " + fbdo.errorReason());
-//    }
-    
-    // Write an Float number on the database path test/float
-//    if (Firebase.setString(fbdo, "/boredomLevel", "5")){
-//      Serial.println("PASSED");
-//      Serial.println("PATH: " + fbdo.dataPath());
-//      Serial.println("TYPE: " + fbdo.dataType());
-//    }
-//    else {
-//      Serial.println("FAILED");
-//      Serial.println("REASON: " + fbdo.errorReason());
-//    }
-    
     // Write an Float number on the database path test/float
     if (Firebase.getString(fbdo, "/boredomLevel")){
-      Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.stringData());
-      Serial.println("TYPE: " + fbdo.dataType());
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      boredomLevel = (fbdo.stringData()).toInt();
     }
     else {
-      Serial.println("FAILED");
+      Serial.println("FAILED TO FETCH BOREDOM");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getString(fbdo, "/hunger")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      hungerLevel = (fbdo.stringData()).toInt();
+    }
+    else {
+      Serial.println("FAILED TO FETCH HUNGER");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getBool(fbdo, "/dragonExists")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      dragonExists = fbdo.stringData() == "true";
+    }
+    else {
+      Serial.println("FAILED TO FETCH EXISTS");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getString(fbdo, "/cleanlinessLevel")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      cleanlinessLevel = (fbdo.stringData()).toInt();
+    }
+    else {
+      Serial.println("FAILED TO FETCH CLEANLEVEL");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getInt(fbdo, "/health")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      health = fbdo.stringData().toInt();
+    }
+    else {
+      Serial.println("FAILED TO FETCH HEALTH");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getInt(fbdo, "/threwBall")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      threwBall = fbdo.stringData() == "true";
+    }
+    else {
+      Serial.println("FAILED TO FETCH THREW BALL");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getInt(fbdo, "/threwFood")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      threwFood = fbdo.stringData() == "true";
+    }
+    else {
+      Serial.println("FAILED TO FETCH THREW FOOD");
+      Serial.println("REASON: " + fbdo.errorReason());
+    }
+    
+    if (Firebase.getInt(fbdo, "/usedMop")){
+//      Serial.println("PASSED");
+//      Serial.println("PATH: " + fbdo.stringData());
+//      Serial.println("TYPE: " + fbdo.dataType());
+      usedMop = fbdo.stringData() == "true";
+    }
+    else {
+      Serial.println("FAILED TO FETCH USEDMOP");
       Serial.println("REASON: " + fbdo.errorReason());
     }
 }
