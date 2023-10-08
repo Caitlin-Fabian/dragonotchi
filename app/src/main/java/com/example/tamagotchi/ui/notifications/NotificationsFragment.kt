@@ -3,30 +3,29 @@ import androidx.compose.foundation.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
-import androidx.compose.material.Button
 import androidx.compose.material.TextButton
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
@@ -78,6 +77,9 @@ class NotificationsFragment : Fragment() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
+        val youngSerif = FontFamily(
+            Font(R.font.young_serif, FontWeight.Bold)
+        )
         Column(
             modifier = Modifier.height(screenHeight).width(screenWidth),
             verticalArrangement = Arrangement.Center,
@@ -108,7 +110,8 @@ class NotificationsFragment : Fragment() {
                     contentDescription = "Contact profile picture",
                 )
             }
-            Text("Clean up the mess ")
+            Text( text = "Clean up the mess ", fontFamily = youngSerif, fontWeight = FontWeight.Normal,textAlign = TextAlign.Center, fontSize = 30.sp
+            )
 
         }
 

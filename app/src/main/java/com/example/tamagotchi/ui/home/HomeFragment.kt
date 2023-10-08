@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
@@ -139,7 +140,7 @@ class HomeFragment : Fragment() {
                     painter = painterResource(R.drawable.red_ball),
                     contentDescription = "Contact profile picture",
                 )
-                Text( text = "Crack ", fontFamily = youngSerif, fontWeight = FontWeight.Normal,textAlign = TextAlign.Center)
+                Text( text = "Toss the ball up to play", fontFamily = youngSerif, fontWeight = FontWeight.Normal,textAlign = TextAlign.Center, fontSize = 30.sp)
             }
         }
 
