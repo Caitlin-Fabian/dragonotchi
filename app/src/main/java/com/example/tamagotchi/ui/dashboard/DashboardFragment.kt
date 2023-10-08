@@ -1,6 +1,5 @@
 package com.example.tamagotchi.ui.dashboard
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,13 +9,13 @@ import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 
@@ -25,14 +24,11 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
@@ -46,6 +42,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
 import com.example.tamagotchi.databinding.FragmentDashboardBinding
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlin.math.roundToInt
 
 class DashboardFragment : Fragment() {
@@ -138,6 +136,23 @@ class DashboardFragment : Fragment() {
 
         if (swipeableStateY.offset.value < with(density) { (-screenHeight.toPx()) } + tolerance) {
             Log.d("debug", "help me")
+            val database = Firebase.database
+            val hungerRef = database.getReference("hunger")
+            val foodRef = database.getReference("threwFood")
+
+            // attempt to get and update health level
+            hungerRef.get().addOnSuccessListener {
+                Log.i("firebase", "Got value ${it.value}")
+                var myInt = it.value.toString().toInt()
+                if (myInt in 0..4) {
+                    myInt++
+                    foodRef.setValue(true)
+                    hungerRef.setValue(myInt)
+                }
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
+
             LaunchedEffect(Unit) {
                 swipeableStateY.snapTo(0)
             }

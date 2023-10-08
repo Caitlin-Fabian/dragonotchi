@@ -31,6 +31,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
 import com.example.tamagotchi.databinding.FragmentNotificationsBinding
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class NotificationsFragment : Fragment() {
 
@@ -84,6 +86,29 @@ class NotificationsFragment : Fragment() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
+
+            Text("Crack ")
+                Button(onClick={
+                    (Log.d("debug", "Hello"))
+                    val database = Firebase.database
+                    val cleanRef = database.getReference("cleanlinessLevel")
+                    val mopRef = database.getReference("usedMop")
+
+                    // attempt to get and update cleanliness level
+                    cleanRef.get().addOnSuccessListener {
+                        Log.i("firebase", "Got value ${it.value}")
+                        var myInt = it.value.toString().toInt()
+                        if (myInt in 0..4) {
+                            myInt++
+                            mopRef.setValue(true)
+                            cleanRef.setValue(myInt)
+                        }
+                    }.addOnFailureListener{
+                        Log.e("firebase", "Error getting data", it)
+                    }
+                }){
+                    Image(
+
 
                 TextButton(modifier = Modifier.background(Color(0)), onClick={(Log.d("debug", "Hello"))}){
                     Image(
