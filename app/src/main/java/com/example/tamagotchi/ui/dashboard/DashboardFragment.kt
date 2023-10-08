@@ -9,6 +9,10 @@ import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -23,12 +27,14 @@ import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -88,6 +94,7 @@ class DashboardFragment : Fragment() {
         val density = LocalDensity.current
 
         Box(modifier = Modifier
+
             .height(screenHeight)
             .width(screenWidth)
             .background(color = Color.White)
@@ -103,24 +110,25 @@ class DashboardFragment : Fragment() {
                 thresholds = { _, _ -> FractionalThreshold(0.5f) },
                 orientation = Orientation.Vertical
             )
+,         contentAlignment = Alignment.Center // Center the content
 
-        ){
-            Text("Crack ")
-                Image(
+        ){Column(verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
 
-                    modifier = Modifier
-                        .size(200.dp)
-                        .align(Alignment.Center) // Center the Image within the Box
-                        .offset {
-                            IntOffset(
-                                swipeableStateX.offset.value.roundToInt(),
-                                swipeableStateY.offset.value.roundToInt()
-                            )
-                        }
-                    ,
-                    painter = painterResource(R.drawable.radish),
-                    contentDescription = "Contact profile picture",
-                )
+                modifier = Modifier
+                    .size(200.dp)
+                    .offset {
+                        IntOffset(
+                            swipeableStateX.offset.value.roundToInt(),
+                            swipeableStateY.offset.value.roundToInt()
+                        )
+                    },
+                painter = painterResource(R.drawable.chicken_leg),
+                contentDescription = "Contact profile picture",
+            )
+            Text(modifier= Modifier.padding(30.dp), text = "Feed Your Pet", textAlign = TextAlign.Center,)
+        }
         }
 
 

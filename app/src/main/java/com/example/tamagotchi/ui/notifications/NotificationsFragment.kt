@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material3.Button
 
 import androidx.compose.runtime.Composable
@@ -68,7 +69,7 @@ class NotificationsFragment : Fragment() {
                 text = notificationsViewModel.text.value ?: "Default Text",
                 modifier = Modifier.padding(16.dp)
             )
-            EggCrack()
+            CleanUp()
         }
 
 
@@ -77,7 +78,7 @@ class NotificationsFragment : Fragment() {
 
     @Preview
     @Composable
-    fun EggCrack(){
+    fun CleanUp(){
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
@@ -85,6 +86,7 @@ class NotificationsFragment : Fragment() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
+
             Text("Crack ")
                 Button(onClick={
                     (Log.d("debug", "Hello"))
@@ -107,11 +109,16 @@ class NotificationsFragment : Fragment() {
                 }){
                     Image(
 
+
+                TextButton(modifier = Modifier.background(Color(0)), onClick={(Log.d("debug", "Hello"))}){
+                    Image(
                         modifier = Modifier.size(300.dp),
-                        painter = painterResource(R.drawable.mop),
+                        painter = painterResource(R.drawable.mop_drawing),
                         contentDescription = "Contact profile picture",
                     )
                 }
+                Text("Clean up the mess ")
+
             }
     }
     override fun onDestroyView() {

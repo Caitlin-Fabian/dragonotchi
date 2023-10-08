@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -117,26 +120,27 @@ class HomeFragment : Fragment() {
                 thresholds = { _, _ -> FractionalThreshold(0.5f) },
                 orientation = Orientation.Vertical
             )
-
+            ,
+            contentAlignment = Alignment.Center // Center the content
 
         ){
-            Text(text="Crack ",fontFamily = youngSerif, fontWeight = FontWeight.Normal )
-            Image(
+            Column(verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .offset {
 
-                modifier = Modifier
-                    .size(200.dp)
-                    .align(Alignment.Center) // Center the Image within the Box
-                    .offset {
-
-                        IntOffset(
-                            swipeableStateX.offset.value.roundToInt(),
-                            swipeableStateY.offset.value.roundToInt()
-                        )
-                    }
-                ,
-                painter = painterResource(R.drawable.ball_icon),
-                contentDescription = "Contact profile picture",
-            )
+                            IntOffset(
+                                swipeableStateX.offset.value.roundToInt(),
+                                swipeableStateY.offset.value.roundToInt()
+                            )
+                        },
+                    painter = painterResource(R.drawable.red_ball),
+                    contentDescription = "Contact profile picture",
+                )
+                Text( text = "Crack ", fontFamily = youngSerif, fontWeight = FontWeight.Normal,textAlign = TextAlign.Center)
+            }
         }
 
 
