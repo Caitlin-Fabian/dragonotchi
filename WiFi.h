@@ -105,7 +105,10 @@ void startWebSocket() {
 }
 
 void handleRoot() {
-  if (cleanlinessLevel < 5) {
+  if (health <= 0) {
+    server.send(200, "<p>I DIED :(</p>");
+  }
+  else if (cleanlinessLevel < 5) {
     server.send(200, "<p>DRAGON POOPY!!!!</p>");
   } else 
   if (boredomLevel < 5) {
