@@ -107,7 +107,7 @@ class NotificationsFragment : Fragment() {
                 }){
                     Image(
 
-                        modifier = Modifier.size(100.dp),
+                        modifier = Modifier.size(300.dp),
                         painter = painterResource(R.drawable.mop),
                         contentDescription = "Contact profile picture",
                     )
