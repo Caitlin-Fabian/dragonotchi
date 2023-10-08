@@ -115,6 +115,7 @@ class DashboardFragment : Fragment() {
 
                     modifier = Modifier
                         .size(200.dp)
+                        .align(Alignment.Center) // Center the Image within the Box
                         .offset {
                             IntOffset(
                                 swipeableStateX.offset.value.roundToInt(),

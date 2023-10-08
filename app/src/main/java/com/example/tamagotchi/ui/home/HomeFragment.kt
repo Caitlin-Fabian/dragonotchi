@@ -22,12 +22,16 @@ import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -77,6 +81,7 @@ class HomeFragment : Fragment() {
     @Preview
     @Composable
     fun Play(){
+
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
@@ -85,7 +90,9 @@ class HomeFragment : Fragment() {
         val anchorsX = mapOf(0f to 0,  with(LocalDensity.current){screenWidth.toPx() to 1})
         val anchorsY = mapOf(0f to 0, with(LocalDensity.current){-screenHeight.toPx() to 1})
         val density = LocalDensity.current
-
+        val youngSerif = FontFamily(
+            Font(R.font.young_serif, FontWeight.Bold)
+        )
         Box(modifier = Modifier
             .height(screenHeight)
             .width(screenWidth)
@@ -103,20 +110,23 @@ class HomeFragment : Fragment() {
                 orientation = Orientation.Vertical
             )
 
+
         ){
-            Text("Crack ")
+            Text(text="Crack ",fontFamily = youngSerif, fontWeight = FontWeight.Normal )
             Image(
 
                 modifier = Modifier
                     .size(200.dp)
+                    .align(Alignment.Center) // Center the Image within the Box
                     .offset {
+
                         IntOffset(
                             swipeableStateX.offset.value.roundToInt(),
                             swipeableStateY.offset.value.roundToInt()
                         )
                     }
                 ,
-                painter = painterResource(R.drawable.ball),
+                painter = painterResource(R.drawable.ball_icon),
                 contentDescription = "Contact profile picture",
             )
         }

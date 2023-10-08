@@ -21,10 +21,11 @@ import androidx.compose.foundation.layout.width
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.material3.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -36,9 +37,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tamagotchi.R
@@ -85,15 +90,18 @@ class EggFragment : Fragment() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
+        val youngSerif = FontFamily(
+            Font(R.font.young_serif,FontWeight.Bold)
+        )
         Column(modifier = Modifier.height(screenHeight).width(screenWidth).background(color = Color.White),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text("Crack ")
-            Button(onClick={(Log.d("debug", "Hello"))}){
+            Text(text="Click the Egg to Crack", fontFamily = youngSerif, fontSize = 30.sp)
+            TextButton(onClick={(Log.d("debug", "Hello"))}){
                 Image(
 
-                    modifier = Modifier.size(100.dp),
+                    modifier = Modifier.size(300.dp),
                     painter = painterResource(R.drawable.egg),
                     contentDescription = "Contact profile picture",
                 )
