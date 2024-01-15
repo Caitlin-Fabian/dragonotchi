@@ -100,7 +100,7 @@ void setupFirebase() {
 }
 
 void loopFirebase() {
-  if (Firebase.ready() && (millis() - lastTime > 1000 || lastTime == 0))
+  if (Firebase.ready() && (millis() - lastTime > 200 || lastTime == 0))
   {
       lastTime = millis();
       count++;

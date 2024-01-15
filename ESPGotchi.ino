@@ -82,6 +82,7 @@ void loop() {
   loopFirebase();
   
   // readLightSensor();
+  updateHealth();
 
   if (dragonExists) {
     // Decrease cleanliness
@@ -100,7 +101,6 @@ void loop() {
             Serial.println("REASON: " + fbdo.errorReason());
           }
         }
-        updateHealth();
       }
     }
     // increase boredoom
@@ -118,7 +118,6 @@ void loop() {
             Serial.println("REASON: " + fbdo.errorReason());
           }
         }
-        updateHealth();
       }
     }
   
@@ -135,7 +134,6 @@ void loop() {
           Serial.println("REASON: " + fbdo.errorReason());
         }
       }
-      updateHealth();
     }
   
     // Decrease health if it hasn't been fed
@@ -153,7 +151,6 @@ void loop() {
             Serial.println("REASON: " + fbdo.errorReason());
           }
         }
-        updateHealth();
       }
     }
   
