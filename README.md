@@ -1,5 +1,5 @@
 # Dragonotchi
-![IMG_0911 2](https://github.com/Caitlin-Fabian/dragonotchi/assets/89735646/df41789c-4fc6-4cb2-8462-9a01de9b0eaa)
+![IMG_0911_2](https://github.com/Caitlin-Fabian/dragonotchi/assets/89735646/5c64e9c6-f319-456c-abe7-34cf3ab7f88e)
 
 A virtual pet that is reminiscent to the 90's pocket pet, Tamagotchi. Once you hatch your little dragon, you are now a parent and have to care for it by playing, feeding and cleaning after it.
 
